@@ -149,6 +149,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setLanguage(rs.getString("language.name"));
 				film.setRating(rs.getString("rating"));
 				film.setListOfActors(findActorsByFilmId(film.getId()));
+				film.setListofCategories(findActorsByCategoryId(film.getId()));
 				anotherFilmList.add(film);
 			}
 
@@ -210,9 +211,5 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return listOfCategories;
 	}
-
-
-
-	
 
 }
