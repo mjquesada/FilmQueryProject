@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
 
 import com.skilldistillery.filmquery.entities.Actor;
+import com.skilldistillery.filmquery.entities.Category;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class DatabaseAccessorObject implements DatabaseAccessor {
@@ -58,6 +58,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			}
 
 			film.setListOfActors(findActorsByFilmId(film.getId()));
+			film.setListofCategories(findActorsByCategoryId(film.getId()));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,7 +80,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		String user = "student";
 		String pass = "student";
 		Connection conn = null;
-		List<Actor> la = new ArrayList<>();
+		List<Actor> listActor = new ArrayList<>();
 
 		try {
 			conn = DriverManager.getConnection(URL, user, pass);
@@ -100,7 +101,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				actor.setFirst_name(rs.getString("first_name"));
 				actor.setLast_name(rs.getString("last_name"));
 
-				la.add(actor);
+				listActor.add(actor);
 			}
 
 		} catch (SQLException e) {
@@ -115,7 +116,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				e.printStackTrace();
 			}
 		}
-		return la;
+		return listActor;
 	}
 
 	public List<Film> findFilmByKeyword(String keyword) {
@@ -176,9 +177,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			conn = DriverManager.getConnection(URL, user, pass);
 			String sql;
 
-			sql = "SELECT actor.id, first_name, " + "last_name FROM actor "
-					+ "JOIN film_actor ON actor.id = film_actor.actor_id "
-					+ "JOIN film ON film_actor.film_id = film.id " + "WHERE film.id = ?";
+			sql = "SELECT category.id, category.name\n" + 
+					"FROM category\n" + 
+					"JOIN film_category ON category.id = film_category.category_id\n" + 
+					"JOIN film ON film_category.film_id = film.id\n" + 
+					"WHERE film.id = ?;";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
@@ -187,9 +190,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 
 			while (rs.next()) {
 				category = new Category();
-				category.setId(rs.getInt("actor.id"));
-				category.setFirst_name(rs.getString("first_name"));
-				category.setLast_name(rs.getString("last_name"));
+				category.setId(rs.getInt("category.id"));
+				category.setName(rs.getString("name"));
 
 				listOfCategories.add(category);
 			}
@@ -208,6 +210,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		}
 		return listOfCategories;
 	}
+
+
 
 	
 

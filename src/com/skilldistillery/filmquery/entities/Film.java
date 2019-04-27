@@ -16,9 +16,18 @@ public class Film {
 	private String rating;
 	private String language;
 	private List<Actor> listOfActors;
+	private List<Category> listofCategories;
 
 	public Film() {
 
+	}
+	
+	public List<Category> getListofCategories() {
+		return listofCategories;
+	}
+
+	public void setListofCategories(List<Category> listofCategories) {
+		this.listofCategories = listofCategories;
 	}
 
 	public List<Actor> getListOfActors() {
@@ -128,12 +137,18 @@ public class Film {
 	@Override
 	public String toString() {
 		String actors = "";
+		String categories = "";
 		for (Actor actor : listOfActors) {
 			actors += actor;
 		}
+		
+		for (Category categoryloop : listofCategories) {
+			categories += categoryloop;
+		}
+		
 		return "Film Id: " + id + "\nTitle: " + title + "\nDescription: " + description + "\nRelease year: "
 				+ release_year + "\nLanguage: " + language + "\nRating: " + rating + "\n" + "\nActors: \n" + actors
-				+ "";
+				+ categories + "";
 	}
 
 	public String printDetails() {

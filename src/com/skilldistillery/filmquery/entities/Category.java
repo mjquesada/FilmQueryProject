@@ -3,6 +3,11 @@ package com.skilldistillery.filmquery.entities;
 public class Category {
 	private int id;
 	private String name;
+	
+	public Category() {
+		
+	}
+	
 	public Category(int id, String name) {
 		super();
 		this.id = id;
@@ -22,7 +27,7 @@ public class Category {
 	}
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + "]";
+		return name;
 	}
 	@Override
 	public int hashCode() {

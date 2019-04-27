@@ -40,17 +40,23 @@ public class FilmQueryApp {
 			case "1":
 				System.out.println("What is the id of your film?");
 				result = input.nextLine();
-				Film film = db.findFilmById(Integer.parseInt(result));
-				if (film.getTitle() == null) {
-					System.out.println("This film is not in our database.");
-				} else {
-					System.out.println(db.findFilmById(Integer.parseInt(result)));
-					System.out.println("Would you like to view all of the details? (yes/no)");
-					result = input.nextLine();
-					if (result.equals("yes")) {
-						System.out.println(film.printDetails());
+				
+				try {
+					Film film = db.findFilmById(Integer.parseInt(result));
+					if (film.getTitle() == null) {
+						System.out.println("This film is not in our database.");
+					} else {
+						System.out.println(film);
+						System.out.println("Would you like to view all of the details? (yes/no)");
+						result = input.nextLine();
+						if (result.equals("yes")) {
+							System.out.println(film.printDetails());
+						}
 					}
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid input.");
 				}
+				
 				break;
 			case "2":
 				System.out.println("What is your keyword?");
@@ -69,6 +75,9 @@ public class FilmQueryApp {
 			case "3":
 				System.out.println("Goodbye");
 				System.exit(0);
+				break;
+			default:
+				System.out.println("Invalid input.  Please try again");
 			}
 
 		} while (!result.equals("3"));
